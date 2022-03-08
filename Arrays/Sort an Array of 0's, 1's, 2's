@@ -1,0 +1,58 @@
+/*
+Sort the colors such that 
+[0,1,1,0,2,1,2,0] becomes [0,0,0,1,1,1,2,2]
+Without using any sorting method 
+
+Things to know - There can be 3 approaches to this question
+Sort using Arrays.sort method - but we can’t use any predefined methods. TC- O(nlogn) , SC - O(1)
+Linearly traverse the array. Count the numbers of 0,1,2 and accordingly run the loop for ‘n’ number of times for each 0,1,2 and fill the array accordingly. TC - O(2N) , SC - O(1)
+Use Dutch National Flag Algorithm. In this method we maintain 3 pointers, low, mid, high. We initialize both low and mid at index 0 and high at arr.length-1. Now we define switch cases for each 0,1,2. 
+Mid pointing to element 0 
+We will swap the elements at arr[mid] & arr[low]
+Increment mid and low by 1
+Mid pointing to 1
+We will simply increment mid by 1
+Mid pointing to 2 
+We will swap elements at arr[mid] & arr[high]
+Decrement high by 1 
+Stop traversing when mid crosses high 
+TC - O(N) , SC - O(1)
+
+*/
+
+class test{
+		public void sortcolors(int[] arr){
+			int temp;
+			int low =0;
+			Int mid = 0;
+			int high = arr.length-1;
+		  while(mid<=high)
+      {   //point 4
+		    switch(arr[mid]){
+          case0:
+           { 
+          temp = arr[mid];
+          arr[mid] = arr[low];
+          arr[low] = temp;
+          low++;
+          mid++;
+          break;
+
+           }
+          case1:
+           {
+          mid++;
+          break;
+           }
+          case2:
+           {
+          temp = arr[mid];
+          arr[mid] = arr[high];
+          arr[high] = temp;
+          high--;
+          break;
+           }
+      }
+    }
+  }
+}
