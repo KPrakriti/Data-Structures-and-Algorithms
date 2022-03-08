@@ -1,0 +1,77 @@
+/*
+Explanation link : https://www.geeksforgeeks.org/find-a-repeating-and-a-missing-number/
+
+Input:     N = 2
+Arr[] = {2,2}
+Output:
+2 ,1
+ 
+BRUTE FORCE APPROACH:
+TC - O(NlogN) - for sorting , SC - O(N)
+Sort the array 
+Traverse over the array and check for the missing and repeating value
+*/
+// sorting input array
+  class Solve {
+    int[] findTwoElement(int arr[], int n) {
+      
+      Arrays.sort(arr);   
+  int miss = 0, repeat = 0;
+  // finding missing and repeating elements
+  for (int i = 0; i < n; ++i)
+    {
+ // if array has 1 element
+        if(i == n-1)
+             break;
+             
+        if(arr[i] == arr[i+1])
+            repeat = arr[i];
+            
+       if((i+1) != arr[i])
+            miss =  i+1;
+    }
+  return new int[] {repeat, miss};
+ 
+    }
+}
+
+/*
+OPTIMAL APPROACH:
+#using HashSet | TC - O(1) , SC - O(N)
+Declare a new array to return as result 
+Initialize rep and mis = 0
+Create a set
+Use a for loop to traverse over the array and put the values into the set
+If the value is not already present in the set then add it else if it cannot be added then return it as the repeating number 
+Again, use a for loop and traverse over the array
+Now check if set doesn’t contains i 
+And return that i as the missing value
+*/
+
+class Solve {
+     int[] findTwoElement(int arr[], int n) {
+        
+             
+       int[] res = new int[2];
+	 int rep = 0; int mis = 0;
+	 Set<Integer> set = new HashSet<>();
+for(int i = 0;i<arr.length;i++){
+if(!set.contains(arr[i])){
+set.add(arr[i]);
+} 
+else {
+rep = arr[i];
+}
+}
+for(int i = 1;i<=arr.length;i++){
+if(!set.contains(i)){
+mis = i;
+break;
+}
+}
+	res[0] = rep;
+	res[1] = mis;
+	return res;
+    }
+}
+
