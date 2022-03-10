@@ -35,7 +35,7 @@ is a contiguous subarray.
 }
 
 /* 2. OPTIMAL Approach uses O(N) Time complexity and O(1) SC
-      Take two variables - maxSum for storing the maxSubArraySum and currSum for keeping track of the currency sum 
+      Take two variables - maxSum for storing the maxSubArraySum and currSum for keeping track of the current sum 
       Use a for loop to traverse over the array 
       Use Math.max function to see if the sum is greater or the current element
       Next use Math.max for checking the maximum between the maxSum and CurrSum 
