@@ -1,0 +1,54 @@
+/* Problem Statement - 
+Given an array Arr[ ] of N integers. Find the contiguous sub-array(containing at least one number) which has the maximum sum and return its sum.
+Input: N = 5
+Arr[] = {1,2,3,-2,5}
+
+Output: 9
+Explanation:
+Max subarray sum is 9
+of elements (1, 2, 3, -2, 5) which 
+is a contiguous subarray. 
+
+1. Brute Force Approach - TC:O(N^2) SC: O(1)
+   We will start from the 0th index and we will count the sum for each of the sub arrays
+   we will be using 2 loops 
+   One will start from i = 0 and other will start from j = i
+   Initialize a max variable to Integer.MIN_VALUE and count to 0
+   we will keep incrementing the count by elements at nums[j]
+   In the max we will check which is greater max or count using Math.max function
+   Lastly, we will simply return max
+   
+  CODE - */
+  
+    class Solution {
+    public int maxSubArray(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        for(int i = 0 ;i < nums.length; i++) {
+            int count = 0;
+            for (int j = i; j < nums.length; j++) {
+                count = count + nums[j];
+                max = Math.max(max, count);
+            }
+        }
+        return max;
+    }
+}
+
+/* 2. OPTIMAL Approach uses O(N) Time complexity and O(1) SC
+      Take two variables - maxSum for storing the maxSubArraySum and currSum for keeping track of the currency sum 
+      Use a for loop to traverse over the array 
+      Use Math.max function to see if the sum is greater or the current element
+      Next use Math.max for checking the maximum between the maxSum and CurrSum 
+      Lastly, return the maxSum */
+      
+      class Solution {
+      public int maxSubArray(int[] nums) {
+        int max_sum = nums[0];
+        int current_sum = max_sum;
+        for(int i = 1 ;i < nums.length; i++) {
+            current_sum = Math.max(current_sum + nums[i], nums[i]);
+            max_sum = Math.max(max_sum, current_sum);
+        }
+        return max_sum;
+    }
+    }
