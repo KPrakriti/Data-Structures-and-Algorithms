@@ -1,0 +1,19 @@
+//TC O(N) For calling the function N times | SC O(N) - StackSpace
+
+class Main {
+  static void print(String name, int count)
+  {
+    if(count == 5) return;
+
+    print(name, count+1);
+    System.out.println(name);
+  }
+  public static void main(String[] args) {
+    String name = "Prakriti";
+    int count = 0;
+    
+    //create a function and pass string name
+    print(name,0);
+    
+  }
+}
