@@ -1,0 +1,16 @@
+void permute(String s, int l, int r)
+{
+//base case 
+  if(l==r)
+  {
+  print(s);
+  return;
+  }
+  
+  for(int i = l ; i<=r; i++)
+  {
+    s = swap(s, i, l);
+    permute(s, l+1, r);
+    s = swap(s, i, l);
+  }
+}
