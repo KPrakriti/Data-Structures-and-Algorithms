@@ -1,0 +1,46 @@
+//using multiple variables
+//TC O(N) SC O(N) 
+class Main {
+  public static void main(String[] args) {
+    int[] arr = {1,3,5,7};
+    int n = arr.length-1;
+
+    System.out.println("Original Array :");
+    for(int i = 0; i<arr.length; i++)
+      {
+        System.out.print(" " + arr[i] + " ");
+      }
+    //call reverseArr Function
+    reverseArr(arr, 0, n);
+
+    System.out.println();
+    System.out.println("Reversed Array :");
+    for(int i = 0; i<arr.length; i++)
+      {
+        System.out.print(" " + arr[i] + " ");
+      }
+  }
+
+  static void reverseArr(int[] arr, int low, int high)
+  {
+    int temp;
+    if(low <= high)
+    {
+      temp = arr[low];
+      arr[low] = arr[high];
+      arr[high] = temp;
+
+      reverseArr(arr, low+1, high-1);
+    }
+  }
+}
+/*
+
+*/
+
+//Can we do it using a single variable??
+
+lets take arr = [1, 2, 4, 6, 7]
+we will iterate till i<=n/2 where n = arr.length
+if we swap index i with index n-i-1 
+we will get the desired output
