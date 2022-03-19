@@ -1,0 +1,39 @@
+//TC - O(2^N) SC - O(N)
+
+import java.util.*;
+class Main {
+
+  static void printSub(int ind, ArrayList<Integer> ds, int[] arr, int n)
+  {
+    //base case
+    if(ind == n)
+    {
+      for(Integer it : ds)
+        {
+          System.out.print(it);
+        }
+      System.out.println();
+      return;
+    }
+    //pick this particular index for subsequence
+    ds.add(arr[ind]);
+    printSub(ind+1, ds, arr, n);
+    ds.remove(new Integer(arr[ind]));
+
+    //not pick - this element is not a apart of our subsequence
+    printSub(ind+1, ds, arr, n);
+    
+  }
+  public static void main(String[] args) {
+    //input an array
+    int[] arr = {3,1,2};
+    int n = 3;
+    ArrayList<Integer> ds = new ArrayList<>();
+    printSub(0, ds, arr, n);
+  }
+}
+
+/*change your res.remove(arr[index]); statement with res.remove(new Integer(arr[index]));
+arrayList have 2 remove method one with index and other with object.
+res.remove(arr[index]);  this statement try to call remove with index because arr[index] giving int and Collection only work with objects. Because of this you are getting outofbound. Either use new Integer(arr[index]) or convert int []arr={3,1,2} to arraylist
+*/
