@@ -1,0 +1,43 @@
+import java.util.*;
+class Main {
+
+  static int printS(int ind, int[] arr, int sum, int s, int n)
+  {
+    //base case
+    if(ind == n)
+    {
+    //condition satisfies
+      if(s == sum)
+      {
+          return 1;
+      }
+      
+      //condition not satisfies
+      return 0;;
+    }
+   
+    s += arr[ind];
+    int left = printS(ind+1, arr, sum, s, n);
+    s -= arr[ind];
+
+    
+    int right = printS(ind+1, arr, sum, s, n);
+    
+    //if none of the function returned true then return a false
+    return left+right;
+    
+  }
+  public static void main(String[] args) {
+    //input an array
+    int[] arr = {3,1,2};
+    int sum = 2;
+    int n = 3;
+    
+    System.out.print(printS(0, arr, sum, 0, n));
+  }
+}
+
+/*change your  res.remove(arr[index]); statement with res.remove(new Integer(arr[index]));
+arrayList have 2 remove method one with index and other with object.
+res.remove(arr[index]);  this statement try to call remove with index because arr[index] giving int and Collection only work with objects. Because of this you are getting outofbound. Either use new Integer(arr[index]) or convert int []arr={3,1,2} to arraylist
+*/
