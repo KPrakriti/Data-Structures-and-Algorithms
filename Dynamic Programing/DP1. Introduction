@@ -1,0 +1,33 @@
+//Program to find Fibonacci number at any index using the Memoization concept in DP
+//TC - O(N) 
+//SC - O(2N) 
+-------------------------------------------------------------------------------------
+import java.util.*;
+class Main {
+
+  static int f(int n, int[] dp)
+  {
+    //base case
+    if(n <= 1) return n;
+
+    //case when the answer is already computed we
+    //only need to return dp[n]
+    if(dp[n] != -1) return dp[n];
+
+    //in case the value for f(n) is 
+    //is not already computed then you can store the computed
+    //value at dp[n] 
+    return dp[n] = f(n-1,dp) + f(n-2,dp);
+  }
+  public static void main(String[] args) {
+    //take n 
+    int n = 5;
+
+    //create a dp array with size n+1
+    int[] dp = new int[n+1];
+
+    //initially fill -1
+    Arrays.fill(dp,-1);
+    System.out.println(f(n,dp));
+  }
+}
