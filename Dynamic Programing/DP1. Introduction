@@ -31,3 +31,103 @@ class Main {
     System.out.println(f(n,dp));
   }
 }
+
+---------------------------------------------------------------------------------------
+//Program to find Fibonacci number at any index using the Tabulation concept in DP
+//TC - O(N) 
+//SC - O(N)  - No recursion stack space
+
+Recursion (Top - down)-------> Tabulation (Bottom - up)
+Top down -> we go from answer to the base case
+Botton up -> we go from base case to the required answer
+
+Step 1 - Initialize the dp array
+Step 2 - Check the base case used in recursive approach
+         The baseCase was if(n<=1) return n. Meaning we are fixing the places for 0th and 1st index in Fibonacchi series
+         because we know its always going to be 0 and 1
+         so here what we do is 
+         we say dp[0] = 0 and dp[1] = 1
+Step 3 - find the recursion realtion 
+         The recursion relation was f(n-1) + f(n-2)
+         the places for 0 and 1st index is already fixed 
+         so we need to fill the dp array with rest of the fibonacci from index 2 for sure
+         dp[i] = dp[i-1] + dp[i-2]
+         
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    //take n 
+    int n = 5;
+
+    //create a dp array with size n+1
+    int[] dp = new int[n+1];
+    //basecase
+    dp[0] = 0;
+    dp[1] = 1;
+
+    //recursion relation
+    for(int i = 2; i<=n; i++)
+      {
+        dp[i] = dp[i-1] + dp[i-2];  
+      }
+    for(int i =0; i<=n; i++)
+      {
+        System.out.println(dp[i]);
+      }
+  }
+}
+
+-------------------------------------------------------------------------------------------
+Now the question is if it is possible to further optimize the space complexity??
+
+Do you think it is necessary to keep an array?
+well, lets see
+
+assume these asterisks to be the fibonacci numbers
+
+*  *  *  *  *  *  *  *  *  *  *  *
+    | |  |
+    | |  this is i 
+    | this can be called as i's prev
+    this is i's prev's prev
+    
+lets name i's prev = prev 
+and i's prev's prev = prev 2
+
+In the next iteration 
+---------------------
+
+*  *  *  *  *  *  *  *  *  *  *  *
+       |  | |
+       |  | i comes here
+       |  prev 
+       prev2 
+       
+I can see a pattern here -> 
+prev2 becomes prev
+and prev becomes i
+and if I add prev + prev2 I can get the fibonacci at any particular index
+
+TC - O(N) SC - O(1)
+
+import java.util.*;
+class Main {
+  public static void main(String[] args) {
+    //take n 
+    int n = 5;
+
+    //basecase
+    int prev2 = 0;
+    int prev = 1;
+    int curr_i = 0;
+    //recursion relation
+    for(int i = 2; i<=n; i++)
+      {
+          curr_i = prev+prev2;
+          prev2 = prev;
+          prev = curr_i;
+          
+      } 
+    System.out.println(prev);
+  }
+}
