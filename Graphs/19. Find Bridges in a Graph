@@ -1,0 +1,76 @@
+//using DFS Traversal
+//TC - O(N+E) SC - O(3N) - for using vis, tin, low array
+
+public class Main {
+    public static void main(String[] args) {
+        //dummy Graph
+        int n = 5;
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+
+        for(int i = 0;i<n;i++)
+        {
+            adj.add(new ArrayList<Integer>);
+        }
+            adj.get(0).add(1);
+            adj.get(1).add(0);
+
+            adj.get(1).add(2);
+            adj.get(2).add(1);
+
+            adj.get(2).add(3);
+            adj.get(3).add(2);
+
+            adj.get(3).add(4);
+            adj.get(4).add(3);
+
+            adj.get(4).add(5);
+            adj.get(5).add(4);
+
+            Main.obj = new Main();
+            obj.findBridge(adj,n);
+    }
+
+    void findBridge(ArrayList<ArrayList<Intger>> adj, int n)
+    {
+        int vis[] = new int[n];
+        int tin[] = new int[n];
+        int low[] = new int[n];
+
+        int timer = 0;
+        for(int i = 0; i<n; i++)
+        {
+            if(vis[i] == 0)
+            {
+                callDFS(i, -1, vis, tin, low, adj, timer)
+            }
+        }
+    }
+    private void callDFS(int node, int parent, int vis[], int tin[], int low[], ArrayList<ArrayList<Intger>> adj, int timer)
+    {
+        vis[node] = 1;
+         
+        tin[node] = low[node] = timer++;
+
+        for(Integer it: adj.get(node))
+        {
+            if(it == parent) continue;
+
+            if(vis[it] == 0)
+            {
+                callDFS(it, node, vis, tin, low, adj, timer);
+                //update the lowest time of insertion as the most minimal among all adjacent nodes
+                low[node] = Math.min(low[node], low[it]);
+
+                //compare -> an edge is only a bridge when low[it] > tin[node]
+                if(low[it] > tin[node])
+                {
+                    System.out.println(it + "-----" + node);
+                }
+                else
+                {
+                    low[node] = Math.min(low[node], low[it]);
+                }
+            }
+        }
+    }
+}
