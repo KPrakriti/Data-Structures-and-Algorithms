@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+/*TC - O(N) - where N = numer of nodes
+  SC - O(N) - where N is the auxilliary space of recursion
+*/
+
+// PreOrder - Root Left Right
+class Solution {
+    
+    private void dfs(TreeNode node, List<Integer> preorderList)
+    {
+        if(node == null) return;
+        
+        //if not null -> add the root value
+        preorderList.add(node.val);
+        
+        //then go to the left
+        dfs(node.left, preorderList);
+        
+        //then go to the right
+        dfs(node.right, preorderList);
+    }
+    public List<Integer> preorderTraversal(TreeNode root) {
+        
+        //create a list to store the preorder traversal and return 
+        List<Integer> preorderList = new ArrayList<>();
+        
+        //define dfs - contains root and preorderList
+        dfs(root,preorderList);
+        
+        return preorderList;
+    }
+}

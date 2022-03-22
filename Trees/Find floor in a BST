@@ -1,0 +1,28 @@
+//TC - O(log N) SC - O(1)
+
+public class Solution {
+
+    public static int floorInBST(TreeNode<Integer> root, int X) {
+        //    Write your code here.
+        int floor = Integer.MAX_VALUE;
+        
+        while(root != null)
+        {
+            if(X == root.data)
+            {
+                floor = root.data;
+                return floor;
+            }
+            if(X < root.data)
+            {
+                root = root.left;
+            }
+            else
+            {
+                floor = root.data;
+                root = root.right;
+            }
+        }
+        return floor;
+    }
+}

@@ -1,0 +1,51 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+//TC - O(N) - we're traversing for N nodes
+//SC - O(N) - In worst case the stack could contain N nodes at one time
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        
+        List<Integer> inorderList = new ArrayList<>();
+        
+        //take an explicit stack data structure.
+        Stack<TreeNode> st = new Stack<>();
+        
+        TreeNode node = root;
+        
+        // and set an infinite loop
+        while(true)
+        {
+            //In every iteration we check whether our current node is pointing to NULL or not.
+            if(node != null) 
+            {
+                //If it is not pointing to null, we simply push the current value to the stack and move the current node to its left child.
+                st.push(node);
+                node = node.left;
+            }
+            else
+            {
+                //If it is pointing to NULL, we first check whether the stack is empty or not. 
+                if(st.isEmpty()) break; //If the stack is empty, it means that we have traversed the tree and we break out of the loop.
+
+                //If the stack is not empty, we pop the top value of the stack, print it and move the current node to its right child.
+                node = st.pop();
+                inorderList.add(node.val);
+                node = node.right;
+            }
+        }
+        return inorderList;
+    }
+}
