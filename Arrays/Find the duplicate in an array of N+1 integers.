@@ -1,0 +1,44 @@
+BRUTE APPROACH 
+Sort the Array - takes O(NlogN) time
+Traverse Linearly - takes O(N) time
+Check for nums[i] == nums[i+1]
+Return nums[i] //this is the repeating number only
+
+
+BETTER APPROACH 
+Use Hashing 
+Create a HashMap
+Map each of the numbers present in the array with 0
+Traverse the array and everytime you find the element not present in Map. Add it. Otherwise if you find the element already present in the map then return that as the duplicate element .
+
+
+OPTIMAL APPROACH 
+Use linkedList Cycle method and Tortoise method 
+Tortoise method 
+Take 2 pointers slow and fast. 
+The slow pointer always moves 1 position ahead 
+The fast pointer always moves 2 positions ahead 
+Continue this until slow and fast pointer collide
+When both collide, leave the slow as it is but move the fast at position nums[0].
+Again, move both the pointers 1 position ahead and you’ll see that they collided again and on the repeating number only
+Return the number
+*Google - The idea behind the algorithm is that, if you have two pointers in a linked list, one moving twice as fast (the hare) than the other (the tortoise), then if they intersect, there is a cycle in the linked list. If they don't intersect, then there is no cycle*
+
+
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int slow = nums[0];
+        int fast = nums[0]; 
+        do {
+            slow = nums[slow]; 
+            fast = nums[nums[fast]]; 
+        } while(slow != fast); 
+        
+        fast = nums[0]; 
+        while(slow != fast) {
+            slow = nums[slow]; 
+            fast = nums[fast]; 
+        }
+        return slow; 
+    }
+}
