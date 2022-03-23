@@ -1,0 +1,94 @@
+Understanding the Problem
+You will be given a set of intervals in the form of a 2-D array, write a program to merge all the overlapping intervals and return the array.
+
+Problem Note:
+You will be given a 2-dimensional array consisting of n rows and 2 columns.
+Each row has an interval starting from the value at the first column and ending at a value in the second column.
+Two intervals t1 and t2 are said to be overlapping if and only if t2.start <= t1.end
+Even if t1 entirely engulfs t2, it's said to be overlapping.
+
+Example 1 - 
+Input: [[1,5], [2,3], [4,8], [9,10]]
+Output: [[1,8], [9,10]]
+ 
+Solutions -
+Brute Force Approach: 
+Compare each interval with every other node in the list for overlapping.
+
+Using Sorting of Intervals: 
+Sort intervals on the basis of start value, then each overlapping intervals will be arranged sequentially.
+
+1. Brute Force Approach
+A simple approach is to start from the first interval and compare it with all other intervals for overlapping, 
+if it overlaps with any other interval, then remove the other interval from the list and merge the other into the first interval.  
+Repeat the same steps for remaining intervals after first. This approach cannot be implemented in better than O(n^2) time.
+
+
+Solution steps -
+Create a boolean array bMerge[] of the size of the input intervals array and initialize with False.
+For each pair of intervals(i, j), check if it satisfies the above conditions to merge. If that so then set the bMerge[i] to True and update
+intervals[j][0] with the minimum value of intervals[i][0] and intervals[j][0]
+intervals[j][1] with the maximum value of intervals[i][1] and intervals[j][1]
+
+3. For each False value of bMerge[i], push intervals[i] to the result array.
+Pseudo Code
+// Driver function
+int[][] mergeIntervals(int[][] intervals) { 
+    int[][] result
+    bool[] bMerge
+    for (int i = 0 to i < intervals.size()-1) {
+        for (int j = i+1 to j < intervals.size()) {
+            bMerge[i] = bMerge[i] or merge(intervals[i], intervals[j])
+        }
+    }
+    for (int i = 0 to i < intervals.size()) {
+        if (bMerge[i] is false) {
+            result.add(intervals[i])
+        }
+    }
+    return result
+}
+// Utility function
+bool merge(int A[], int B[]) {
+    if (A[1] < B[0] or B[1] < A[0]) {
+        return false
+    }
+    B[0] = min(A[0], B[0])
+    B[1] = max(A[1], B[1])
+    return true
+}
+Follow ups
+How is the merging of intervals done here?
+Why does the utility merge function is updating the value of intervals[j] ?
+Can you dry run this code using your own sample test case?
+3. Using Sorting of Intervals
+Till now you would have realized that if we can arrange the intervals in any fashion such that their start time would be together, then we could say that each set of intervals that can be merged will appear as a continuous run.
+So, we will sort the intervals on the basis of start value in ascending order. The possible conditions to verify the merging of intervals could be — If the current interval begins after the previous interval ends, then they do not overlap and we can append the current interval to merged. Otherwise, they do overlap, and we merge them by updating the end of the previous interval if it is less than the end of the current interval.
+Solution steps
+Sort the intervals on the basis of start value in ascending order
+Create a merged array
+If the list of merged intervals is empty or if the current interval does not overlap with the previous, simply append it.
+Otherwise, there is overlap, so we merge the current and previous intervals.
+
+Pseudo Code
+int[][] mergeIntervals(int[][] intervals) {
+    intervals.sort( key = intervals[0] )
+    // to store merged resultant intervals
+    int[][2] merged
+    for( int i=0 to i < intervals.size()){
+        if ( not merged or merged[merged.size()-1][1] < intervals[i][0]){
+            merged.add(intervals[i])
+        } else {
+            merged[merged.size()-1][1] = max(merged[merged.size()-1][1], intervals[i][1])
+        }
+    }
+    return merged
+}
+
+Critical Ideas to Think - 
+How does sorting help in merging the intervals?
+After sorting we can surely say that if there are merging intervals they are bound to be consecutive and once they are consecutive we can easily merge it.
+Do you think that sorting the intervals on the basis of end value in descending order will help to solve the problem? If not, Why?
+No, because 
+How are we merging the intervals?
+We are merging the intervals if the start value of the 2nd interval is less than the end value of the 1st interval.
