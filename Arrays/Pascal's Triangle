@@ -1,0 +1,56 @@
+/* Given an integer numRows, return the first numRows of Pascal's triangle.
+
+Example 1:
+
+Input: numRows = 5
+Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]] */
+
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        
+        //declare a list of list which will be our result 
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        
+        //declare a list of row which will define our current row
+        
+        List<Integer> row; 
+        
+        //declare a list that will define our previous row 
+        List<Integer> prev = null;
+        
+        //we know we need to iterate for numRows
+        for(int i = 0; i< numRows; i++)
+        {
+            //everytime we visit a new row we initialize it with empty array list
+            
+            row = new ArrayList<Integer>();
+            
+            
+        
+        
+        //we know that the number of columns will always be equal to the numner of rows 
+        
+        for(int j = 0; j<= i; j++)
+        
+            //if its the 1st col or last col the pascal triangle value will be 1 for it
+            if(j == 0 || j == i )
+                row.add(1);
+            
+            //else if its not the 1st or last column then we know that it was the prev row j-1 col value
+            //and j col value that were added to form the current jth column value of the currrent row
+            //so we simply add it to the row
+            else 
+                row.add(prev.get(j-1) + prev.get(j));
+            
+            //we initialize the current row to be the previous so that
+            //it can be used in next iteration
+            prev = row; 
+            
+            //add current row to result
+            res.add(row);
+            
+          
+        }
+        return res;
+    }
+}
