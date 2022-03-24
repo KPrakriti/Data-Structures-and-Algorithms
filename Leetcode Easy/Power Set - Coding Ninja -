@@ -1,0 +1,25 @@
+import java.util.ArrayList;
+public class Solution {
+	public static ArrayList<ArrayList<Integer>> pwset(ArrayList<Integer> arr) {
+		//created a new list<list<Int>> to return. In this list we will add the list arr
+        ArrayList<ArrayList<Integer>> output = new ArrayList<ArrayList<Integer>>();
+        int n = arr.size();
+        
+        //traverse till 2^n -1
+        for(int num = 0; num < (1<<n); num++)
+        {
+           ArrayList<Integer> ds = new ArrayList<>();
+            for(int i = 0; i<n; i++)
+            {
+                if((num & (1 << i)) > 0) 
+                {
+                    ds.add(arr.get(i));
+                }
+            }
+           // Insert the subset ds in output
+			output.add(ds);
+        }
+        return output;
+	}
+}
+

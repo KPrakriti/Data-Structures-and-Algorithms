@@ -1,0 +1,149 @@
+/* Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+   You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+   You can return the answer in any order. 
+
+   Example 1:
+
+   Input: nums = [2,7,11,15], target = 9
+   Output: [0,1]
+   Output: Because nums[0] + nums[1] == 9, we return [0, 1]. */
+
+//1. BRUTE FORCE Approach | TC:O(N^2) | SC: O(1)
+     
+/*   The approach is to use 2 for loops 
+     one for i which will go from index 0 to < nums.length
+     another for j which will go from index i+1 to < nums.length
+     check if(nums[i] + nums[j] == target ?
+     if yes resturn a new array with index i and j
+     else throw an IllegalArgumentException */
+     
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        
+        //nums = [2,7,11,15], target = 9
+        
+        for(int i =0; i<= nums.length; i++)
+        {
+            for(int j = i+1; j<nums.length; j++)
+            if(nums[i] + nums[j] == target)
+            {
+                return new int[] {i,j};
+            }
+           
+        }
+        throw new IllegalArgumentException("doesn't exist");
+    }
+}
+
+2. Better Approach - TC -O(NlogN) | SC - O(N) | using Two Pointer Approach
+   
+   class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        
+        if(nums == null)
+	   return null;
+        //create a new array temp to copy all the elements of the original array into it 
+	//because we are going to sort the array for this approach which would modify the original array and we don't want that 
+	//because doing so would give the incorrect answer :') 
+        int[] temp = new int[nums.length];
+        
+        for(int i = 0 ; i<nums.length; i++)
+        {
+            temp[i] = nums[i];
+        }
+    	Arrays.sort(temp);
+	
+	//initialize two pointers - 1 at start and other at the end of the array
+    	int pointerA=0, pointerB=temp.length-1;
+	//creating two variables to store the elements that satisfies the
+	//n1 + n2 = target - this thing
+	//because as we are doing operations on the temp array so when we will try to fetch the required index at the end from the original array
+	//we need the exact elements so that we can compare the elements of the original array with n1 and n2 and then return the required index
+    	int n1 = 0,n2 = 0;
+	
+	
+    	while(pointerA < pointerB){
+        	if(temp[pointerA] + temp[pointerB] == target)
+		{
+
+            	n1 = temp[pointerA];
+            	n2 = temp[pointerB];
+
+            	break; //if we get the correct elements that sums up to target then we will break out of the while loop
+
+        	}
+		
+        	else if(temp[pointerA] + temp[pointerB] > target)
+            	    pointerB--;
+        	else
+            	    pointerA++;
+    	}
+	//create a new array result with size 2 because we now we only need to return 2 values 
+    	int[] res = new int[2];
+	    	for(int i = 0; i < nums.length; i++){
+	    		if(nums[i] == n1){
+	    			res[0] = i;
+	    			break;
+	    		}
+	    	}
+	    	if(n1 != n2){
+	    		for(int i = 0; i < nums.length; i++){
+		    		if(nums[i] == n2){
+		    			res[1] = i;
+		    			break;
+		    		}
+		    	}
+	    	} else{
+	    		for(int i = 0; i < nums.length; i++){
+		    		if(nums[i] == n2 && i != res[0]){
+		    			res[1] = i;
+		    			break;
+		    		}
+		    	}
+	    	}
+	    	
+	    	return res;
+	    }
+}
+   
+	
+
+     
+3. Opimal Approach - TC - O(1) | SC - O(N)
+   We can solve this problem efficiently by using hashing. 
+   We’ll use a hash-map to see if there’s a value target – i 
+   that can be added to the current array value i to get the 
+   sum equals to target. If target – i is found in the map, we
+   return the current index, and index stored at target – nums[index] location in the map. 
+
+   This can be done in constant time.
+
+
+class Solution {
+public int[] twoSum(int[] nums, int target) {
+
+//create a HashMap
+Map<Integer, Integer> map = new HashMap<>();
+
+//loop through the array nums 
+for(int i = 0;i<nums.length;i++)
+{
+//find the complement using simple maths 
+int complement = target - nums[i];
+
+//check if map contains the complement 
+if(map.containsKey(complement))
+{
+//if yes, return a new array with index of the complement 
+	return new int[] {map.get(complement),i};
+}
+//else just put that element into the map
+map.put(nums[i],i);
+
+     }
+    
+    throw new IllegalArgumentException("doesn't exists");
+}
+}

@@ -1,0 +1,91 @@
+1. Naive Approach 
+    TC - O(N+M) - where N and M is the no of nodes in the two lists
+    SC - O(N+M) 
+    
+Code - 
+
+//create a dummy node 
+Node dummyNode = new Node(0);
+Node tail = dummyNode //to easily append values in the new list
+
+while(true)
+{
+//if either of the list runs out we use the other list
+
+if(list1 == null)
+{
+  tail.next = list2;
+  break;
+}
+else if(list2 == null)
+{
+  tail.next = list1;
+  break;
+}
+  //compare the data of two lists and whichever list's data is smaller
+  //append it to the tail and advance the head to the next node
+  
+  if(list1.val <= list2.val)
+  {
+    tail.next = list1;
+    list1 = list1.next;
+  }
+  else
+  {
+    tail.next = list2;
+    list2 = list2.next;
+  }
+  //advance the tail in both cases 
+    tail = tail.next;
+}
+return dummyNode;
+}
+}
+
+
+2. Efficient Approach - without using any extra space 
+   TC - O(N+M) - where N and M is the no of nodes in the two lists
+   SC - O(1) - we are doing it in place!
+   
+Code - 
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        //if either of the list is empty we simply return the other list
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        
+        //if by any chance the value at l2 is smaller we will swap l1 and l2 
+        //because we want l1 to be smaller always
+        if(l1.val > l2.val)
+        {
+            ListNode swp = l1;
+            l1 = l2;
+            l2 = swp;
+        }
+        
+        //create res and initially point it to the smaller one, i.e, l1
+        ListNode res = l1;
+        
+        while(l1 != null && l2 != null)
+        {
+            ListNode temp = null;
+            
+            while(l1 != null && l1.val <= l2.val)
+            {
+                temp = l1; //just to keepn trak of the last node
+                l1 = l1.next;
+            }
+            //after this iteration we can say that temp will be pointing to the last node which is
+            //still the smaller one
+            
+            temp.next = l2;
+            
+            //after this we swap l1 and l2
+            
+            ListNode swp = l1;
+            l1 = l2;
+            l2 = swp;
+        }
+        return res;
+    }
+}

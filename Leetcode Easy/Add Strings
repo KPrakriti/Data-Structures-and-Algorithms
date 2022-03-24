@@ -1,0 +1,49 @@
+//TC - O(N) - where N is the length of longer string
+//SC - O(N) - we are using string builder
+
+class Solution {
+    public String addStrings(String num1, String num2) {
+        
+        //num1 - 2859 , num2 - 293
+        /*the idea is to convert the given character to its integer value using the ascii values
+        
+        We can get the difference between two characters and we can get an actual integer value
+        
+        example - to get integer value of char '1' we subtract it from  '0' 
+                   char 1 = 49 and char 0 = 48 --> 49 - 48 = 1*/
+        
+        //lets declare the variables we need
+        //two pointers to track num1 and num2
+        int i = num1.length() -1; //we start from right 
+        int j = num2.length() -1;
+        
+        int carry = 0;
+        
+        //String builder is a class that creates mutable sequence of string - as strings are immutable
+        StringBuilder res = new StringBuilder();
+        
+        //lets loop over the given strings
+        while(i>-1 || j>-1)
+        {
+            //convert the current characters to its integer value
+            int d1 = i>-1 ? num1.charAt(i) - '0' : 0; //is the current character is valid character from 0 - 9 we convert it otherwise just assign the characetr to 0
+            int d2 = j>-1 ? num2.charAt(j) - '0' : 0;
+            
+            //compute sum
+            int sum = d1+d2+carry;
+            
+            //append the mod value of sum to result
+            res.append(sum%10); 
+            //compute carry 
+            carry = sum/10;
+            
+            //move both pointers back
+            i--; j--;
+        }
+        //need to handle 1 extra edge case where the carry is still left as 1 
+        if(carry == 1) res.append(1);
+        
+        //return the reversed string
+        return res.reverse().toString();
+    }
+}

@@ -1,0 +1,18 @@
+class Solution {
+    public int reverse(int x) {
+        
+        //initialize a variable of type long to store the result 
+        long rev = 0;
+        int num = x;
+        
+        while(num!=0)
+         {
+        int rem = num%10; //stores the last digit of the given integer
+            rev = rev*10+rem; //stores the reversed value 
+            num/= 10; //to decrease the value of num
+         }
+        //check if rev is not going out of range 
+        if(rev >Integer.MAX_VALUE || rev<Integer.MIN_VALUE) return 0; 
+        return (int)rev; //typeCast long to int
+    }
+}

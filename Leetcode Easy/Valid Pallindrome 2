@@ -1,0 +1,39 @@
+/*
+Time Complexity: O(n)
+Space Complexity: O(1)
+
+For time complexity, in a successful case, it would run once through the entire length of the string, for a false case it would repeat twice for "n-1" length strings which is shadowed by O(n) hence the time complexity would remain O(n).
+
+*/
+
+class Solution {
+    public boolean validPalindrome(String s) {
+        
+        if(s.length() == 1) return true;
+        int lo = 0;
+        int hi = s.length()-1;
+        
+        while(lo < hi)
+        {
+            if(s.charAt(lo) != s.charAt(hi))
+            {
+                return (isPallindrome(s, lo+1, hi) || isPallindrome(s,lo,hi-1));
+            }
+            lo++;
+            hi--;
+        }
+        return true;
+    }
+    
+    private boolean isPallindrome(String s, int lo, int hi)
+    {
+        while(lo<hi)
+        {
+            if(s.charAt(lo) != s.charAt(hi))
+                return false;
+            lo++;
+            hi--;
+        }
+        return true;
+    }
+}

@@ -1,0 +1,50 @@
+//1. Brute Force - TC-O(1) , SC- O(N)
+
+class solution{
+  puclic boolean ishappy(int n){
+      while(n!=1){
+      Set<Integer> numset = new HashSet<>(); //create a hashset as it don't contains dupliacte values 
+      int currentelem = n;
+      int sum = 0;
+      while(currentelem!=0){
+      rem = currentelem%10; //get the num at tens place 
+      sum = sum+(rem*rem);
+      currentelem = n/10;      
+    }
+    if(numset.contains(sum)){
+      return false;
+    }else{
+      numset.add(sum);
+    }
+   }
+   return true;
+  }
+ }
+
+//2. BETTER APPROACH - TC-O(log N) , SC- O(1)
+//use Floyd's Cycle-Finding Algorithm 
+
+class Solution {
+     public int getNext(int n) {
+        int totalSum = 0;
+        while (n > 0) {
+            int rem = n % 10;
+            n = n / 10;
+            totalSum += rem * rem;
+        }
+        return totalSum;
+    }
+
+    public boolean isHappy(int n) {
+        int slowRunner = n;
+        int fastRunner = getNext(n);
+        
+        //If n is a happy number, i.e. there is no cycle, then the fast runner will         
+        //eventually  get to 1 before the slow runner.
+        while (fastRunner != 1 && slowRunner != fastRunner) {
+            slowRunner = getNext(slowRunner);
+            fastRunner = getNext(getNext(fastRunner));
+        }
+        return fastRunner == 1;
+    }
+}

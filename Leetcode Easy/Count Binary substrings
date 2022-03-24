@@ -1,0 +1,29 @@
+class Solution {
+    public int countBinarySubstrings(String s) {
+    
+    /* Input: s = "00110011"
+       Output: 6
+       Explanation: There are 6 substrings that have equal number of consecutive 1's and 0's: "0011", "01", "1100", "10", "0011", and "01".  */
+    
+        int prev  =0;
+        int curr = 1;
+        int i = 1;
+        int count = 0;
+        
+        while(i<s.length())
+        {
+            if(s.charAt(i-1)==s.charAt(i))
+            {
+                curr++;
+            }
+            else
+            {
+                count += Math.min(prev,curr);
+                prev = curr;
+                curr = 1;    
+            }
+            i++;
+        }
+        return count += Math.min(prev,curr);
+    }
+}

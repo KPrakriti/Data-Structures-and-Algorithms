@@ -1,0 +1,33 @@
+//TC - O(N) 
+//SC - O(1)
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        
+        //check if s and t has equal length or not. If they dont has the same length then they cant be anagrams
+        if(s.length() != t.length()) return false;
+        
+        //create a count array to store the count of each characters present in s and t
+        int[] countArr = new int[26];
+        
+        //The idea is to increment the counts for characters present in s 
+        //and decrease the counts for same characters present in t
+        
+        //example suppose 'a' is present 3 times in s then we do ++ and count becomes 3
+        //'a' is again presnt in t 3 times so we do -- everytime we see 'a' 
+        //this way if the counts = 0 at end then I can say its a valid anagram
+        
+        for(int i = 0; i<s.length(); i++)
+        {
+            countArr[s.charAt(i) - 'a']++;
+            countArr[t.charAt(i) - 'a']--;
+        }
+        
+        for(int count : countArr)
+        {
+            if(count != 0) return false;
+        }
+        return true;
+        
+    }
+}

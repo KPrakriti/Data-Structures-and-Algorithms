@@ -1,0 +1,60 @@
+1. BRUTE FORCE APPROACH
+// Time (m*n) : Space O(1)
+    private ListNode bruteForce(ListNode list1, ListNode list2){
+        ListNode common = null;
+        ListNode i = list1;
+        while(i!=null){
+            ListNode j = list2;
+            while(j!=null){
+                if(i == j){
+                    common = i;
+                    break;
+                }
+                j = j.next;
+            }
+            i = i.next;
+            if(common!=null)
+                break;
+        }
+        return common;
+    }
+}
+
+2. BETTER APPROACH - To use HashSet 
+// Time - O(M+N) : SC - O(N)
+private ListNode visited(ListNode list1, ListNode list2){
+        ListNode common = null;
+        Set<ListNode> visited = new HashSet<>();
+        while(list1!=null){
+            visited.add(list1);
+            list1 = list1.next;
+        }
+        while(list2!=null){
+            if(visited.contains(list2)){
+                common = list2;
+                break;
+            }
+            list2 = list2.next;
+        }
+        return common;
+    }
+    }
+    
+3. BEST APPROACH - Two pointers 
+//TC - O(M+N) : SC - O(1)
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        
+        if(headA == null || headB == null) return null;
+        
+        ListNode dummy1 = headA;
+        ListNode dummy2 = headB;
+        
+        while(dummy1 != dummy2)
+        {
+            dummy1 = dummy1 == null ? headB : dummy1.next;
+            dummy2 = dummy2 == null ? headA : dummy2.next;
+        }
+        return dummy1;
+    }
+}

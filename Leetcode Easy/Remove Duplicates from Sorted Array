@@ -1,0 +1,24 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        
+        //create a HashSet to store the unique elements 
+        HashSet<Integer> hashnum = new HashSet<>();
+        //initialize index to 0 
+        int index=0;
+        
+        //Traverse through the complete array 
+        for(var i : nums)
+        {
+        //if the value gets added to the HashSet 
+           if(hashnum.add(i))
+           {
+        //put that value in nums[index]
+               nums[index] = i;
+        //increment the index 
+               index++;               
+           }
+           
+        }
+        return index;
+}
+}
