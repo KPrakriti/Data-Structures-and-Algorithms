@@ -1,0 +1,30 @@
+//TC - O(N) + O(N) - traverse the array + compare RS, LS 
+//SC - O(N) - using a stack
+
+class Solution {
+    public int largestRectangleArea(int[] heights) 
+    {
+        int n = heights.length;
+        int maxArea = 0;
+        Stack<Integer> st = new Stack<>();
+        
+        for(int i = 0;i<=n;i++) //to do it in 1 pass we traverse till 1 more than actual index because we know for the last elemnt the right smaller would be it itself 
+        {
+        while(!st.isEmpty() && ((i==n) || heights[st.peek()] >= heights[i]))
+        {
+            int h = heights[st.pop()]; //we have a greater elemnt at stack and we dont need it therefore we do st.pop and as the elemnt in stack is the prev bar so I need to find the area of it and thus I took int h = heights[st.pop()]
+            int w; //find width
+            
+            //two cases - 1. stackEmpty 2. StackNotEmpty
+            if(st.isEmpty()) w = i;//if empty I can say there is no smaller elemnt therefore I can take the whole width 
+            else w = i - st.peek() -1 ;
+            
+            //once I've figured out the h and w we can find the area
+            maxArea = Math.max(maxArea, h*w);
+        }
+        //if the stack is empty we add the histogram[i]
+        st.push(i);
+        }
+        return maxArea;
+    }
+}

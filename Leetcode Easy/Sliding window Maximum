@@ -1,0 +1,44 @@
+//TC - O(N) + O(N) = O(N) 
+//SC - O(K) 
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        
+        int n = nums.length;
+        //declare an output array 
+        int[] output = new int[n-k+1];
+        int ans = 0;
+        //declare a dequeue - a dequeue can perform operations from both front and back
+        Deque<Integer> q = new ArrayDeque<>();
+        
+        //traverse the given array from 0 to n-1
+        for(int i = 0; i<n; i++)
+        {
+            //2 things to do - 1. remove any elemnt that is out of the window boundary
+            //                 2. remove anything from the back of dequeue that is lesser than nums[i] 
+          /*1*/  if(!q.isEmpty() && q.peek() == i-k)
+            {
+                q.poll();
+            }
+          /*2*/
+            while(!q.isEmpty() && nums[q.peekLast()] <= nums[i])
+            {
+                q.pollLast();
+            }
+            
+            //once every edge case has been taken care of I can push the current array elemnt into the dequeue
+            q.offer(i);
+            
+            if(i>=k-1)
+            {
+                output[ans++] = nums[q.peek()]; //add the front dequeue elemnts into the output array bcz I made sure that the front always contains the max elemnt of each window of size k
+            }
+            
+        }
+        return output;
+        
+    }
+}
+
+/*nums = [1,3,-1,-3,5,3,6,7], k = 3
+  

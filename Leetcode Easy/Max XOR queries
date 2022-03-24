@@ -1,0 +1,90 @@
+class Node {
+    Node links[] = new Node[2]; 
+    
+    public Node() {
+    }
+    boolean containsKey(int ind) {
+        return (links[ind] != null); 
+    }
+    Node get(int ind) {
+        return links[ind]; 
+    }
+    void put(int ind, Node node) {
+        links[ind] = node; 
+    }
+};
+class Trie {
+    private static Node root; 
+
+    //Initialize your data structure here
+
+    Trie() {
+        root = new Node(); 
+    }
+
+
+    //Inserts a word into the trie
+
+    public static void insert(int num) {
+        Node node = root;
+        for(int i = 31;i>=0;i--) {
+            int bit = (num >> i) & 1; 
+            if(!node.containsKey(bit)) {
+                node.put(bit, new Node()); 
+            }
+            node = node.get(bit); 
+        }
+    }
+    
+    public int getMax(int num) {
+        Node node = root; 
+        int maxNum = 0; 
+        for(int i = 31;i>=0;i--) {
+            int bit = (num >> i) & 1; 
+            if(node.containsKey(1 - bit)) {
+                maxNum = maxNum | (1<<i);
+                node = node.get( 1 - bit); 
+            }
+            else {
+                node = node.get(bit); 
+            }
+        }
+        return maxNum; 
+    }
+};
+class Solution {
+    public int[] maximizeXor(int[] nums, int[][] queries) {
+        
+        
+        Trie trie = new Trie();
+        int[] result = new int[queries.length];
+        int[][] query = new int[queries.length][3]; //offline query
+        
+        for(int i = 0; i < queries.length; i++) { //transfer online query data to offline query
+            query[i][0] = queries[i][0];
+            query[i][1] = queries[i][1];
+            query[i][2] = i;
+        }
+        
+        Arrays.sort(nums); //sort the given array nums
+        Arrays.sort(query, (a,b)->(a[1]-b[1])); //sort the offline query on the basis of ai
+        
+        int index = 0; 
+        for(int i = 0; i < query.length; i++) { //traverse the query and insert the nums elemnet into trie which are <= ai
+            while(index < nums.length && nums[index] <= query[i][1]) { //query[i][1] = ai
+                trie.insert(nums[index]);
+                index++;
+            }
+            
+            if(nums[0] > query[i][1]) { //if there is no element in nums which is <= ai then my ans will contain nothing but -1. As I already sorted the array so I need only to chk the 0TH index.
+                result[query[i][2]] = -1;
+                
+            } else {
+                result[query[i][2]] = trie.getMax(query[i][0]); //else use the getmax to find the max
+            }
+        }
+        
+        return result;
+        
+    }
+}
