@@ -1,0 +1,85 @@
+class meeting {
+    int start;
+    int end;
+    int pos;
+     
+     //constructor which is initializing the class meeting
+    meeting(int start, int end, int pos)
+    {
+        this.start = start;
+        this.end = end;
+        this.pos = pos;
+    }
+}
+class meetingComparator implements Comparator<meeting>
+{
+    @Override
+    public int compare(meeting o1, meeting o2) 
+    {
+        if (o1.end < o2.end)
+            return -1;  //-1 means leave as it is 
+        else if (o1.end > o2.end)
+            return 1; //1 means swap the places 
+        else if(o1.pos < o2.pos)
+            return -1; //-1 means leave as it is 
+        return 1;  //1 means swap the places 
+    }
+}
+class Solution 
+{
+    //Function to find the maximum number of meetings that can
+    //be performed in a meeting room.
+public static int maxMeetings(int start[], int end[], int n)
+    {
+        //create an Array list - this will be our data structure
+        //meeting is the datatype here 
+        //we have defined the class meeting above 
+         ArrayList<meeting> meet = new ArrayList<>();
+        
+        //loop through the whole array
+        //and add the values-start time , end time , position (i.e index) in the ArrayList
+        //we have done i+1 here because indexing starts from 1 here
+        //as we have to return the max number of the meetings 
+        // and that will be counted from 1 only
+        for(int i = 0; i < start.length; i++)
+            meet.add(new meeting(start[i], end[i], i+1));
+        
+        //create a comparater 
+        //I have implemented it above 
+        meetingComparator mc = new meetingComparator(); 
+        
+        //Collections.sort is a function that 
+        //sorts the values present in a list 
+        //in asc order
+        Collections.sort(meet, mc); 
+        
+        //create a new arrayList 
+        //to store your answers
+        ArrayList<Integer> answer = new ArrayList<>();
+        
+        //added 1st meeting pos into ans 
+        answer.add(meet.get(0).pos);
+        
+        //added the end time of 1st meeting as limit 
+        int limit = meet.get(0).end; 
+        
+        //again traverse the array 
+        //check if current meeting start time > previous meeting end time 
+        //if yes then only that meeting can happen
+        //and finally we add it to our answer list
+        for(int i = 1;i<start.length;i++) {
+            if(meet.get(i).start > limit) {
+                
+                //updating the limit value
+                limit = meet.get(i).end; 
+                
+                //adding the pos i into the ans
+                answer.add(meet.get(i).pos);
+            }
+        }
+       
+        //Last step - just return the size of the answer ArrayList 
+        //that would the required answer
+        return answer.size();
+    }
+}

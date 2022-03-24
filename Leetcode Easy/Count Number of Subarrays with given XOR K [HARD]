@@ -1,0 +1,75 @@
+1. BRUTE FORCE CODE
+
+public class Main
+{
+	public static void main(String[] args) {
+		int[] A = {5, 6, 7, 8, 9};
+		int k = 5;
+		int n = A.length;
+		int ans = 0;
+		for(int i = 0; i<n; i++)
+		{
+		    int currxor = 0;
+		    
+		    for(int j = i; j<n; j++)
+		    {
+		        currxor = currxor^A[j];
+		        
+		        if(currxor == k)
+		        {
+		            ans++;
+		        }
+		    }
+		}
+		System.out.println(ans);
+	}
+}
+
+
+2. EFFIECIENT APPROACH 
+
+public class Solution {
+    public int solve(int[] A, int B) {
+      
+        //declare a HashMap to store the xor sum and the number of time it appears
+        HashMap<Integer, Integer> freq = new HashMap<Integer, Integer>(); 
+        
+        //declare cnt to keep the track of cnt of subarrays with given xor K
+        int cnt = 0; 
+        
+        //declare xorr to xorr the elemnts of the array
+        int xorr = 0;
+        
+        //store length of the array in a variable
+        int n = A.length; 
+        
+        //linearly traverse in the array and keep xoring the elements of the array
+        for(int i = 0;i<n;i++) {
+            xorr = xorr ^ A[i]; 
+            
+            //check if XR^B exists in the hashmap then simply increase the cnt by the
+            //the number of time it has appeared
+            if(freq.get(xorr^B) != null) 
+                cnt += freq.get(xorr ^ B); 
+                
+            //if the xorr (where we were storing the xor of the array elemnts) gets = to the given value B
+            //increase the count
+            if(xorr == B) {
+                cnt++; 
+            }
+            
+            //check if the xorr exists in the hashmap
+            //then just increase the number of times it has appeared in the hashmap
+            //by simply doing freq(which is name of the hashmap in my case).get(xorr) which will basically give me the current count like how many times it has appeared
+            //and I add 1 to it and store back in the freq hashmap
+            if(freq.get(xorr) != null) 
+                freq.put(xorr, freq.get(xorr) + 1); 
+                
+            //else add that particular xor value with no. of appeaences as 1
+            else 
+                freq.put(xorr, 1); 
+        }
+        //Finally just resturn the count
+        return cnt; 
+    }
+}

@@ -1,0 +1,25 @@
+/* Given an integer, check whether it is a palindrome or not.
+
+   Example 1:
+
+   Input: n = 55555
+   Output: Yes */
+
+class Solution
+{
+    public String is_palindrome(int n)
+    {   
+        int num = n;
+        int rev = 0;
+        while(n!=0)
+        {
+            int rem = n%10;
+                rev = rev*10+rem;
+                n/=10;
+        }
+        if(num == rev)
+            return "Yes";
+        return "No";
+            
+    }
+}

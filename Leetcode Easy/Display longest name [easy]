@@ -1,0 +1,19 @@
+public class Main
+{
+	public static void main(String[] args) {
+	    
+	    String[] names = { "Geek", "Geeks", "Geeksfor", "GeeksforGeek", "GeeksforGeeks" };
+	    int index = 0;
+	    int longestLen = names[0].length();
+        
+        for(int i = 1;i<names.length;i++)
+        {
+            if(longestLen < names[i].length())
+            index = i;
+            longestLen = names[i].length();
+        }
+            
+		System.out.println(names[index]);
+	}
+}
+    
