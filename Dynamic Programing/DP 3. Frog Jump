@@ -103,3 +103,30 @@ public class Solution {
     }
 
 }
+
+
+//4. Space Optimization - TC O(N) SC O(1)
+
+public class Solution {
+    public static int frogJump(int n, int heights[]) {
+
+        // Space optimization
+        int previ = 0;
+        int prev2i = 0;
+        
+        for(int i = 1; i<n; i++)
+        {
+            int jump1 = previ + Math.abs(heights[i] - heights[i-1]);
+            
+            int jump2 = Integer.MAX_VALUE;
+            if(i>1)
+                jump2 = prev2i + Math.abs(heights[i] - heights[i-2]);
+            
+            int curri = Math.min(jump1, jump2);
+            prev2i = previ;
+            previ = curri;
+        }
+        return previ;
+    }
+
+}
