@@ -1,0 +1,284 @@
+You are given an integer array 'ARR' of size 'N' and an integer 'S'. 
+Your task is to return the list of all pairs of elements such that each sum of elements of each pair equals 'S'.
+Note:
+Each pair should be sorted i.e the first value should be less than or equals to the second value. 
+
+Return the list of pairs sorted in non-decreasing order of their first value. 
+In case if two pairs have the same first value, the pair with a smaller second value should come first.
+
+Sample Input 1:
+5 5
+1 2 3 4 5
+Sample Output 1:
+1 4
+2 3
+Explaination For Sample Output 1:
+Here, 1 + 4 = 5
+      2 + 3 = 5
+Hence the output will be, (1,4) , (2,3).
+
+//Approach 1 - Brute Force
+Initialize a list to store our results.
+For each element in the array 'ARR[i]', check if ('ARR[i]' + ‘ARR[j]’), equals to given sum or not, where ‘i’ < ‘j’ < ‘N’.
+If the condition matches, add the pair('ARR[i]', ‘ARR[j]’) to the list. 
+Sort the list of pairs as per the given output format and return this list.
+
+Time Complexity
+O(N ^ 2), where ‘N’ is the number of elements in the array.
+In the worst case, for each element, we will be checking all other elements in the array. Hence the overall time complexity will be O(N ^ 2).
+
+Space Complexity
+O(1).
+
+import java.util.*;
+
+public class Solution {
+    public static int[][] pairSum(int arr[], int s) {
+        int n = arr.length;
+
+        // Used to store result.
+        List<int[]> ans = new ArrayList();
+
+        // Checking sum for every element.
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (arr[i] + arr[j] == s) {
+                    int[] pair = new int[2];
+                    pair[0] = arr[i];
+                    pair[1] = arr[j];
+                    ans.add(pair);
+                }
+            }
+        }
+
+        // Used to store final sorted result.
+        int res[][] = new int[ans.size()][2];
+        for (int i = 0; i < ans.size(); i++) {
+            int a = ans.get(i)[0], b = ans.get(i)[1];
+            res[i][0] = Math.min(a, b);
+            res[i][1] = Math.max(a, b);
+        }
+
+        Arrays.sort(res, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                if (a[0] == b[0]) {
+                    return a[1] - b[1];
+                }
+                return a[0] - b[0];
+            }
+        });
+
+        return res;
+    }
+}
+
+
+//Approach 2 - Using hashMap
+
+Initialize a list to store our results.
+For each element in the array ‘ARR[i]’, we will check whether there exists an element equals to ('S' - ‘ARR[i]’) already in the map.
+If it exists we will add the pair('ARR[i]', ‘S’ - ‘ARR[i]’ ) ‘COUNT’ number of times to the list, where ‘COUNT’ 
+represents the frequency of ('S' - ‘ARR[i]’) in the map.
+Also, we will increment the frequency of the current element ('ARR[i]') in the map. Sort the list of pairs as per the given output format and return this list.
+Time Complexity
+O(N^2), where ‘N’ is the number of elements in the array.
+
+For the worst case, when all elements are the same we must have to add ‘N’^2 pairs to the answer vector and so, the overall time complexity will be O(N^2).
+
+Space Complexity
+O(N), where ‘N’ is the number of elements in the array.
+
+In the worst case, O(N) extra space is required for the hashmap to store the frequency of each element. Hence the overall space complexity will be O(N).
+
+import java.util.*;
+
+public class Solution {
+    public static int[][] pairSum(int arr[], int s) {
+        int n = arr.length;
+
+        // HashMap to store frequency of elements.
+        HashMap<Integer, Integer> map = new HashMap();
+
+        // This will store the result.
+        List<int[]> ans = new ArrayList();
+        for (int ele : arr) {
+            int count = map.getOrDefault(s - ele, 0);
+
+            int[] pair = new int[2];
+            pair[0] = ele;
+            pair[1] = s - ele;
+
+            while (count-- > 0) {
+                ans.add(pair);
+            }
+
+            map.put(ele, map.getOrDefault(ele, 0) + 1);
+        }
+
+        // This will to store final result.
+        int res[][] = new int[ans.size()][2];
+
+        // Sorting the 'ans' arrays element.
+        for (int i = 0; i < ans.size(); i++) {
+            int a = ans.get(i)[0], b = ans.get(i)[1];
+            res[i][0] = Math.min(a, b);
+            res[i][1] = Math.max(a, b);
+        }
+
+        // Finally sorting each pair in 'res'.
+        Arrays.sort(res, new Comparator<int[]>() {
+            public int compare(int[] a, int[] b) {
+                if (a[0] == b[0]) {
+                    return a[1] - b[1];
+                }
+                return a[0] - b[0];
+            }
+        });
+
+        return res;
+    }
+}
+
+//Approach 3 - Using Two Pointers
+
+We will create a map where the key is the unique element in the ‘ARR’ and value is the number of times that key appeared in the ‘ARR’. We will create a ‘KEYARRAY’ to store all the unique elements in the ‘ARR’.
+
+ 
+
+We will first sort the ‘KEYARRAY’ and for every ‘KEY’ in ‘KEYARRAY’ we will check if ‘KEY’ + ‘KEY’ is equal to the target sum. If yes we will add all the occurrences of the ‘PAIR’ = {‘KEY’, ‘KEY’)  in the answer list. Total such possible pairs are given by the formula N*(N-1)/2. 
+
+For example, if ‘ARR’ = {2, 2, 2}, ‘S’ = 4. Then ‘MAP’ = {[2, 4]}, ‘KEYARRAY’ = {2} and ‘ANS’ = {[2, 2], [2, 2], [2, 2]}.
+ 
+
+Then we will maintain two pointers ‘LOW’ and ‘HIGH’ pointing to the start and end of the ‘KEYARR’. We will find the current sum, which will be ‘KEYARR[LOW]’ + ‘KEYARR[HIGH]’ and if the current sum is equal to the target sum then we will add all the occurrences of the current pair to our answer list. Otherwise, if the current sum is less than the target sum we will increment ‘LOW’ by 1 so that we can get a greater current sum in the next iteration. Otherwise, if the current sum is greater than the target sum we will decrement ‘HIGH’ by 1 so that we can get a lesser current sum in the next iteration.
+
+ 
+
+Algorithm:
+
+Initialize a list ‘ANS’ to store the result.
+Initialize a map ‘MAP’.
+Iterate ‘NUM’ in ‘ARR’:
+Add ‘NUM’ to the ‘MAP’ and increment its value by 1.
+Initialize a list ‘KEYARRAY’ to store the unique elements in ‘ARR’.
+Iterate ‘KEY’ in ‘KEYARRAY’
+If ‘KEY’ + ‘KEY’ is equal to ‘S’, add all such pairs([‘KEY’, ‘KEY’]) to the ‘ANS’.
+Initialize two pointers ‘LOW’ and ‘HIGH’ pointing to the left and right end of ‘KEYARRAY’ respectively.
+Iterate while ‘LOW’ is less than ‘HIGH’:
+Set ‘CURRSUM’ as ‘KEYARRAY’[‘LOW’] + ‘KEYARRAY’[‘HIGH’].
+If ‘CURRSUM’ is equal to ‘S’, add all such pairs([‘KEYARRAY’[‘LOW’], ‘KEYARRAY’[‘HIGH’]]) to ‘ANS’.
+Increment ‘LOW’ by 1.
+Decrement ‘HIGH’ by 1.
+Otherwise, if ‘CURRSUM’ is less than ‘S’:
+Increment ‘LOW’ by 1.
+Otherwise,
+Decrement ‘HIGH’ by 1.
+Sort the list of pairs as per the given output format and return this list.
+Time Complexity
+O(N^2), where ‘N’ is the number of elements in the given array.
+
+
+For the worst case, when all elements are the same we must have to add ‘N’^2 pairs to the answer vector and so, the overall time complexity will be O(N^2).
+
+Space Complexity
+O(N), where ‘N’ is the number of elements in the array.
+
+
+In the worst case, O(N) extra space is required for the hashmap to store the unique elements and frequency of each element. 
+Hence the overall space complexity will be O(N).
+
+import java.util.*;
+
+public class Solution {
+    public static int[][] pairSum(int arr[], int s) {
+
+        // Used to store result.
+		List<int[]> ans = new ArrayList();
+
+		HashMap<Integer, Integer> map = new HashMap<>();
+
+		for (int num : arr) {
+
+			// Store frequency of each unique element.
+			map.put(num, map.getOrDefault(num, 0) + 1);
+		}
+
+		// Store unique elements.
+		Integer[] keyArray = map.keySet().toArray(new Integer[map.keySet().size()]);
+
+		Arrays.sort(keyArray);
+
+		for (int key : keyArray) {
+
+			if (key + key == s) {
+
+				int freq = map.get(key);
+
+				// Total number of such pairs will be 'FREQ*(FREQ-1)/2'.
+				for (int j = 0; j < freq * (freq - 1) / 2; j++) {
+
+					ans.add(new int[] { key, key });
+				}
+			}
+		}
+
+		// Maintain two pointers.
+		int low = 0;
+		int high = keyArray.length - 1;
+
+		while (low < high) {
+
+			int currSum = keyArray[low] + keyArray[high];
+
+			// If the current sum is equal to the target sum.
+			if (currSum == s) {
+
+				int freq = map.get(keyArray[low]) * map.get(keyArray[high]);
+
+				// Total number of such pairs will be 'FREQ'.
+				for (int j = 0; j < freq; j++) {
+
+					ans.add(new int[] { keyArray[low], keyArray[high] });
+				}
+
+				low++;
+				high--;
+
+			}
+			else if (currSum < s) {
+
+				low++;
+			}
+			else {
+
+				high--;
+			}
+
+		}
+
+		// Used to store final sorted result.
+		int res[][] = new int[ans.size()][2];
+		for (int i = 0; i < ans.size(); i++) {
+
+			int a = ans.get(i)[0], b = ans.get(i)[1];
+			res[i][0] = Math.min(a, b);
+			res[i][1] = Math.max(a, b);
+		}
+
+		Arrays.sort(res, new Comparator<int[]>() {
+			public int compare(int[] a, int[] b) {
+
+				if (a[0] == b[0]) {
+
+					return a[1] - b[1];
+				}
+
+				return a[0] - b[0];
+			}
+		});
+
+		return res;
+    }
+}
+
+
