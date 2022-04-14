@@ -1,0 +1,68 @@
+Element that exists more than n/2
+
+Given an array nums of size n, return the majority element.
+
+The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+Example 1:
+
+Input: nums = [3,2,3]
+Output: 3
+
+//Approach 1 : Sort the array and return the elemnt at index n/2
+// Intuition : we know that the majority elemnt exists more than n/2 
+//             so when we sort the array and get the elemnt at index n/2 we 
+//             meaning more than half of the array consists of the majority elemnt are bound to get thr majority elemnt.
+//TC - O(log N) SC O(1)
+class Solution {
+    public int majorityElement(int[] nums) {
+        
+        Arrays.sort(nums);
+        return nums[nums.length/2];
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Approach 2
+
+Check the count of occurrences of all elements of the array one by one. 
+Start from the first element of the array and count the number of times it occurs in the array. If the count is greater than the floor of N/2 then return that element as the answer. If not, proceed with the next element in the array and repeat the process.
+Time Complexity: O(N^2) 
+Space Complexity: O(1)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Approach 3: 
+
+Use a hashmap and store as (key,value) pairs. (Can also use frequency array based on size of nums) 
+Here the key will be the element of the array and value will be the number of times it occurs. 
+Traverse the array and update the value of the key. Simultaneously check if the value is greater than floor of N/2. 
+If yes, return the key 
+Else iterate forward.
+Time Complexity: O(N)
+Space Complexity: O(N)
+
+class Solution {
+    public int majorityElement(int[] nums) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int n = nums.length;
+        for(int i=0;i<n;i++)
+        {
+            int val=nums[i];
+            if(map.containsKey(val))
+            {
+                map.put(val,map.get(val)+1);
+                if(map.get(val)>(n/2))
+                {
+                    return val;
+                }
+            }
+            else
+            {
+                map.put(val,1);
+            }
+        }
+        return nums[0];
+
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
