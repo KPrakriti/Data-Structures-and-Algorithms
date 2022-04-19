@@ -3,10 +3,42 @@ Sort the colors such that
 [0,1,1,0,2,1,2,0] becomes [0,0,0,1,1,1,2,2]
 Without using any sorting method 
 
-Things to know - There can be 3 approaches to this question
+Things to know - There can be 3 APPROACHES to this question
 Sort using Arrays.sort method - but we can’t use any predefined methods. TC- O(nlogn) , SC - O(1)
-Linearly traverse the array. Count the numbers of 0,1,2 and accordingly run the loop for ‘n’ number of times for each 0,1,2 and fill the array accordingly. TC - O(2N) , SC - O(1)
-Use Dutch National Flag Algorithm. In this method we maintain 3 pointers, low, mid, high. We initialize both low and mid at index 0 and high at arr.length-1. Now we define switch cases for each 0,1,2. 
+
+APPROACH 1 : Sort 
+Arrays.sort(nums);
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+APPROACH 2 : Linearly traverse the array. Count the numbers of 0,1,2 and accordingly run the loop for ‘n’ number of times for each 0,1,2 and 
+             fill the array accordingly. 
+             TC - O(2N) , SC - O(1)
+	     
+int count0=0;
+int count1=0;
+int count2=0;
+int end =nums.length;
+
+    for(int i=0;i<end;i++)
+    {
+        if(nums[i]==0)
+            count0++;
+        if(nums[i]==1)
+            count1++;
+        if(nums[i]==2)
+            count2++;
+    }
+  for(int i=0;i<count0;i++)
+       nums[i]=0;
+  for(int i=count0;i<count0+count1;i++)
+       nums[i]=1;
+  for(int i=count0+count1;i<nums.length;i++)
+       nums[i]=2;
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+APPROCH 3 : Use Dutch National Flag Algorithm. In this method we maintain 3 pointers, low, mid, high. 
+We initialize both low and mid at index 0 and high at arr.length-1. Now we define switch cases for each 0,1,2. 
 Mid pointing to element 0 
 We will swap the elements at arr[mid] & arr[low]
 Increment mid and low by 1
