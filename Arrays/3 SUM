@@ -35,4 +35,63 @@ class Solution {
 }
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-APPROACH 2 : 
+APPROACH 2 : OPTIMAL APPROACH
+
+TC - O(N*N) - N for traversing array to get a and another N for the 2 pointer approach
+
+ class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        
+        //step 1 - Sort the array because we are gonna use the 2 pointer approach
+        Arrays.sort(nums);
+        //create a list of list of integers to return 
+        List<List<Integer>> ansList = new ArrayList<>();
+        
+        //run a for loop to get 'a' -> we need triplets such that a+ b+ c = 0 
+        // so if we fix a then we'll left to find b+c such that b+c = -a 
+        for(int a = 0; a < nums.length; a++)
+        {
+            //in the question its clearly stated that we cannot take duplicate a
+            //for example if the array is [-1 -1 2 2 4] then initially a will be '-1'
+            //in the next step a will go to index 1 but at index 1 we have a = -1 that  is equal to the previous value of a 
+            //so if we again take -1 in a then it will end up giving the duplicate triplates
+            //and hence we got to avoid this
+            //we will make this sure that we are not considering similar values of a 
+            //using if condition
+            if(a == 0 || (a > 0 && nums[a] != nums[a-1])) //selecting unique a's
+            {
+                //now we only have to find b+c = -1 
+                //we will take low and high pointers in order to find b and c
+                // initialize low at a+1 mtlb jahana bhi a hai uske ek posiition aage low ko rakhenge
+                // initialize high at nums.length-1 
+                int low = a+ 1;
+                int high = nums.length - 1;
+                //also lets take our desired b+c as requires sum thatw e are now searching for
+                int requiredSum = 0-nums[a]; //we know b+c = -a
+                
+                //apply 2 pointers approach
+                while(low < high)
+                {
+                    if(nums[low] + nums[high] == requiredSum) //if we get our required sum then I'll add the values into my arrayList
+                    {
+                        ansList.add(Arrays.asList(nums[a], nums[low], nums[high]));
+                    
+                    //we also need to skip the duplicates 
+                    while(low < high && nums[low] == nums[low+1]) low++;
+                    while(low < high && nums[high] == nums[high-1]) high--;
+                    
+                    //upar jo skip krrhe wo make sure krega ki we reach at the last duplicate for
+                    //low or high present for now 
+                    //toh we need to take one more step for low or high to get an unique elemnt
+                    low++;
+                    high--;
+                    }
+                else if(nums[low] + nums[high] < requiredSum) low++;
+                    else high--;
+                }
+            }
+        }
+        return ansList;
+    }
+}
+
