@@ -1,0 +1,50 @@
+Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.
+
+Return the sum of the three integers.
+
+You may assume that each input would have exactly one solution.
+
+Example 1:
+
+Input: nums = [-1,2,1,-4], target = 1
+Output: 2
+Explanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//TC O(N^2) + O(NlogN)
+//SC - O(1)
+
+class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        
+        int res = 0;
+        int closestAns = Integer.MAX_VALUE;
+        
+        //Array sort 
+        Arrays.sort(nums);
+        
+        //fix a 
+        for(int i = 0; i<nums.length-2; i++)
+        {
+            int low = i+1;
+            int high = nums.length-1;
+            
+            while(low < high)
+            {
+                int sum = nums[i] + nums[low] + nums[high];
+                int difference = Math.abs(sum - target);
+                if(difference < closestAns)
+                {
+                    closestAns = difference;
+                    res = sum;
+                }
+                if(sum > target)
+                    high--;
+                else if(sum < target)
+                    low++;
+                else
+                    return target;
+            }
+        }
+        return res;
+    }
+}
