@@ -1,0 +1,66 @@
+A permutation of an array of integers is an arrangement of its members into a sequence or linear order.
+
+For example, for arr = [1,2,3], the following are considered permutations of arr: [1,2,3], [1,3,2], [3,1,2], [2,3,1].
+The next permutation of an array of integers is the next lexicographically greater permutation of its integer. More formally, if all the permutations of the array are sorted in one container according to their lexicographical order, then the next permutation of that array is the permutation that follows it in the sorted container. If such arrangement is not possible, the array must be rearranged as the lowest possible order (i.e., sorted in ascending order).
+
+For example, the next permutation of arr = [1,2,3] is [1,3,2].
+Similarly, the next permutation of arr = [2,3,1] is [3,1,2].
+While the next permutation of arr = [3,2,1] is [1,2,3] because [3,2,1] does not have a lexicographical larger rearrangement.
+
+Given an array of integers nums, find the next permutation of nums.
+
+The replacement must be in place and use only constant extra memory.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TC - O(N) - for traverseing back the array to get the break point
+    + O(N) - for again traversing back the array to get elemnt sligtly greater than elemnt at i
+    + O(N) - for revrsing the right half
+    
+SC - O(1)
+
+class Solution {
+    public void nextPermutation(int[] nums) {
+        
+        //just return if the input is null or if it has a single element
+        if(nums.length == 0 || nums.length <=1 ) return;
+        
+        //else initialize a pointer i at nums.length-2
+        int i = nums.length-2;
+        
+        //use while loop to check for the condition where we need to find a break point such that 
+        //nums[i] < nums[i+1]
+        while(i>=0 && nums[i] >= nums[i+1]) i--;
+        
+        if(i>= 0)
+        {
+            //if we found the break point we will come here
+            //now we need to find another element which is just slightly greater than 
+            //element at index i
+            //like -> nums[j] > nums[i]
+            int j = nums.length-1;
+            
+            while(nums[j] <= nums[i]) j--;
+            
+            //but once found we will have to swap nums[i] and nums[j]
+            swap(nums, i, j);
+        }
+        
+        //reverse everything after index i
+        reverse(nums, i+1, nums.length-1);
+    }
+    
+    //swap function
+    public void swap(int[] nums, int i, int j)
+    {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+    
+    //reverse function
+    public void reverse(int[] nums, int i, int j)
+    {
+        while(i<j)
+            swap(nums, i++, j--);
+    }
+}
