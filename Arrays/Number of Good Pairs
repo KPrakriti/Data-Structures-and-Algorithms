@@ -61,19 +61,16 @@ class Solution {
 
 class Solution {
     public int numIdenticalPairs(int[] guestList) {
-        HashMap<Integer, Integer> hm = new HashMap<>();
+        Map<Integer, Integer> countMap = new HashMap<>();
+        int count = 0;
         
-        int ans = 0;
+        for(Integer num : nums)
+            countMap.put(num, countMap.getOrDefault(num, 0) + 1);
         
-        for(int friend:guestList)
-        {
-            int friendCount = hm.getOrDefault(friend,0);
-            ans+=friendCount;
-            hm.put(friend,friendCount+1);
-        }
+        for(Integer currCount : countMap.values())
+            count += currCount * (currCount-1)/2;
         
-        
-        return ans;
+        return count;
     }
 }
 SPACE : O(N)
