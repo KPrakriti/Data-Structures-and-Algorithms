@@ -38,18 +38,25 @@ class Solution {
 
 **Optimal Approach-- TC-> O(N^2) **--> This will pass all the test cases
 class Solution {
-    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
-        int n=nums1.length;
-        int count=0;
-        HashMap<Integer, Integer> map=new HashMap<>();
-        for(int a: nums1)
-            for(int b: nums2)
-                map.put(a+b, map.getOrDefault((a+b), 0)+1);
-        
-        for(int c: nums3)
-            for(int d: nums4)
-                count+=map.getOrDefault(-(c+d),0);
-        
-        return count;
+   public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+    Map<Integer, Integer> map = new HashMap<>();
+    
+    for(int i=0; i<C.length; i++) {
+        for(int j=0; j<D.length; j++) {
+            int sum = C[i] + D[j];
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
     }
+    
+    int res=0;
+    for(int i=0; i<A.length; i++) {
+        for(int j=0; j<B.length; j++) {
+            res += map.getOrDefault(-1 * (A[i]+B[j]), 0);
+        }
+    }
+    
+    return res;
 }
+
+Time complexity:  O(n^2)
+Space complexity: O(n^2)
