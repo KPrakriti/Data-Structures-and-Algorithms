@@ -19,3 +19,24 @@ class Solution {
         return res;
     }
 }
+
+------------------------------------------------------------------------------------------------------------
+BRUTE 
+
+class Solution {
+    public int numJewelsInStones(String J, String S)
+    {
+        int c=0;
+        for(int j=0;j<J.length();j++)
+        {
+            for(int s=0;s<S.length();s++)
+            {
+                if(J.charAt(j)==S.charAt(s))
+                {
+                    c++;
+                }
+            }
+        }
+        return c;
+    }
+}
