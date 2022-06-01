@@ -1,0 +1,97 @@
+# Related Topic - Arrays and Sorting
+
+# Question : Alice manages a company and has rented some floors of a building as office space. Alice has decided some of these floors should be special floors, used for relaxation only.
+
+You are given two integers bottom and top, which denote that Alice has rented all the floors from bottom to top (inclusive). You are also given the integer array special, where special[i] denotes a special floor that Alice has designated for relaxation.
+
+Return the maximum number of consecutive floors without a special floor.
+
+Example 1:
+
+Input: bottom = 2, top = 9, special = [4,6]
+Output: 3
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Idea : This question can be boiled down to the question - longest consequtive sequence
+         we just need to remove the special floors from the set and then this question is same as the longest consequtive sequence problem
+         
+CODE 1 : TC - O(N) SC - O(N)
+Gives TLE
+         class Solution {
+    public int maxConsecutive(int bottom, int top, int[] special) {
+        
+        int currentNum = 0;
+        int currentStreak = 0;
+        int longestStreak = 0;
+        
+        //1. add all the lements from botton till top into hashSet
+        Set<Integer> set = new HashSet<>();
+        
+        for(int i = bottom; i<= top; i++)
+        {
+            set.add(i);
+        }
+        
+        for(int s : special)
+        {
+            if(set.contains(s))
+            {
+                set.remove(s);
+            }
+        }
+        
+        for(int num : set)
+        {
+            if(!set.contains(num-1))
+            {
+                currentNum = num;
+                currentStreak = 1;
+            }
+            
+            while(set.contains(currentNum + 1))
+            {
+                currentNum += 1;
+                currentStreak += 1;
+            }
+            longestStreak = Math.max(longestStreak, currentStreak);
+        }
+        return longestStreak;
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Idea : Take 3 variables - Start , end , ans 
+         initially take the specialFloor = special[0]
+         initialize start = bottom 
+         take another variable diff = specialFloor - start
+         update ans = Math.max(ans, diff)
+         
+         re initialize start = specialFloor + 1
+         
+         once your special array is exhausted
+         calculate the new ans = Math.max(ans, top - special[special-1])
+         
+         return ans 
+         
+# CODE OPTIMAL APPROACH : TC - O(NlogN) SC - O(1)
+
+         class Solution {
+    public int maxConsecutive(int bottom, int top, int[] special) {
+        
+        Arrays.sort(special);
+        int start = bottom;
+        int end = top;
+        int ans = 0;
+        
+        for(int i = 0; i<special.length; i++)
+        {
+            int specialFloor = special[i];
+            int diff = specialFloor - start;
+            ans = Math.max(ans, diff);
+            start = specialFloor+1;
+        }
+        ans = Math.max(ans, (end - special[special.length-1]));
+        
+        return ans;
+    }
+}
