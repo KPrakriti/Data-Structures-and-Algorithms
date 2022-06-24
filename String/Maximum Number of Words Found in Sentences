@@ -1,0 +1,35 @@
+
+1. O(N^2)
+class Solution {
+    public int mostWordsFound(String[] sentences) {
+        
+        //using nested for loops
+        int maxx = 0;
+        
+        for(String sent : sentences)
+        {
+            int count = 0;
+            for(char ch : sent.toCharArray())
+            {
+                if(ch == ' ') count++;
+            }
+            maxx = Math.max(count+1, maxx);
+        }
+        return maxx;
+    }
+}
+
+2. Using Split
+
+class Solution {
+    public int mostWordsFound(String[] sentences) {
+        
+        int maxx = Integer.MIN_VALUE;
+        
+        for(int i = 0; i<sentences.length; i++)
+        {
+            maxx = Math.max(maxx, sentences[i].split(" ").length);
+        }
+        return maxx;
+    }
+}
