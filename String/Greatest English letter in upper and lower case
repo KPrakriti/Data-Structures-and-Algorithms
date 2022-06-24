@@ -1,0 +1,21 @@
+//TC - O(2N) | SC - O(N)
+
+class Solution {
+    public String greatestLetter(String s) {
+        
+        Set<Character> set = new HashSet<>();
+        
+        for(int i = 0; i<s.length(); i++)
+        {
+            set.add(s.charAt(i));
+        }
+        
+        //traverse in the set from back
+        for(char ch = 'Z' ; ch >= 'A'; ch--)
+        {
+            if(set.contains(Character.toLowerCase(ch)) && set.contains(Character.toUpperCase(ch)))
+                return ""+ch;
+        }
+        return " ";
+    }
+}
