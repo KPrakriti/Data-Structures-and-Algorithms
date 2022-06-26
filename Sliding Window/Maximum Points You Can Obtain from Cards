@@ -1,0 +1,31 @@
+TC - O(N) SC - O(1)
+
+
+class Solution {
+    public int maxScore(int[] cardPoints, int k) {
+        
+        //take sum of all elements 
+        int totalSUM = 0;
+        for(int i = 0; i<cardPoints.length; i++)
+        {
+            totalSUM += cardPoints[i];
+        }
+        int maxPoint = 0;
+        int excludeWindow = 0;
+        int n = cardPoints.length;
+        
+        for(int i = 0; i<n-k-1; i++)
+        {
+            excludeWindow += cardPoints[i];
+        }
+        //start from the index where we left
+        for(int i = n-k-1; i<n; i++)
+        {
+            excludeWindow += cardPoints[i];
+            maxPoint = Math.max(maxPoint, totalSUM - excludeWindow);
+            //remove the start index from the window
+            excludeWindow -= cardPoints[i - (n-k-1)];
+        }
+        return maxPoint;
+    }
+}
