@@ -1,0 +1,35 @@
+//TC O(N*M) SC - O(M) 
+
+class Solution {
+    public List<Integer> luckyNumbers (int[][] matrix) {
+        
+        //check in each row for the minimum - store that index wher you find the min element in any row
+        List<Integer> arr = new ArrayList<>();
+        for(int i = 0; i<matrix.length; i++)
+        {
+          int minIndex = 0, minInRow = Integer.MAX_VALUE;
+            for(int j = 0; j<matrix[i].length; j++)
+            {
+                if(minInRow > matrix[i][j])
+                {
+                    minInRow = matrix[i][j];
+                    minIndex = j;
+                }
+  
+            }
+            int maxx = -1;
+            for(int j = 0; j<matrix.length; j++)
+            {
+                if(matrix[j][minIndex] > maxx)
+                {
+                    maxx = matrix[j][minIndex];
+                }
+                
+            }
+            if(maxx == minInRow)
+                arr.add(maxx);
+        }
+        return arr;
+    }
+}
+
