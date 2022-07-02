@@ -1,0 +1,32 @@
+class Solution {
+    public int minDeletions(String s) {
+        
+        int deletionToMakeUnique = 0;
+        //1. create a frequency array
+        int[] freq_arr = new int[26]; 
+        
+        //we are storing the frequency of each character at index s.charAt(i) - 'a'
+        for(int i = 0; i<s.length(); i++)
+        {
+            freq_arr[s.charAt(i) - 'a']++; 
+        }
+        
+        //once I have the frequencies - I need to check for duplicate frequencies if any
+        //and calculate the count to make it unique by deleting some characters frequency
+        
+        Set<Integer> seenFrequencies = new HashSet<>();
+        
+        for(int i = 0; i<freq_arr.length; i++)
+        {
+            while(freq_arr[i] > 0 && seenFrequencies.contains(freq_arr[i]))
+            {
+                freq_arr[i]--;
+                deletionToMakeUnique++;
+                
+            }
+              seenFrequencies.add(freq_arr[i]); 
+            
+        }
+        return deletionToMakeUnique;
+    }
+}
