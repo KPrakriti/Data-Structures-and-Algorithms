@@ -1,0 +1,88 @@
+/*
+You have n bags numbered from 0 to n - 1. You are given two 0-indexed integer arrays capacity and rocks. 
+The ith bag can hold a maximum of capacity[i] rocks and currently contains rocks[i] rocks. You are also given an integer additionalRocks, 
+the number of additional rocks you can place in any of the bags.
+
+Return the maximum number of bags that could have full capacity after placing the additional rocks in some bags.
+
+Example 1:
+Input: capacity = [2,3,4,5], rocks = [1,2,4,4], additionalRocks = 2
+Output: 3
+*/
+
+//APPROACH 1 - Using extra space - TC O(N) and SC O(N) 
+
+class Solution {
+    public int maximumBags(int[] capacity, int[] rocks, int additionalRocks) {
+        
+        //all array has same length
+        int len = capacity.length;
+        //using extra space - create an array to store the current occupancy
+        int[] currOccupancy = new int[len];
+        //fill the currOccupancy array with the difference of capacity[i] and rocks[i]
+        for(int i = 0; i<len; i++)
+        {
+            currOccupancy[i] = capacity[i] - rocks[i];
+        }
+        //sort the currOccupancy so that we can fill in the
+        //additional rocks at a place where the least amount of additional rock is needed
+        //in this way we will be able to maximize the number of bags
+        Arrays.sort(currOccupancy);
+        int count = 0;
+        //again iterate in the currOccupancy
+        for(int i = 0; i<len; i++)
+        {
+            if(currOccupancy[i] == 0) //if currOccupancy[i] is 0 it means that the bag is already full 
+            {
+                count++;
+            }
+            else if(additionalRocks >= currOccupancy[i]) //here we check if there is additionalRocks left if ye we check if that
+            {                                             //value is greater than current Occupancy if yes then we use that rock
+                count++;
+                additionalRocks -= currOccupancy[i];
+            }
+            else
+                break;
+        }
+        return count;
+    }
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+APPROACH 2 : In constant space 
+
+/*
+We can solve this in O(1) space - notice that in previous approach we didn't really used the rocks array anywhere
+once we got the occupancy left at each index
+so how about modifying the rocks array with the occupancy and then perform the algo on it!
+*/
+
+class Solution {
+    public int maximumBags(int[] capacity, int[] rocks, int additionalRocks) {
+        
+        int len = rocks.length;
+        int maxBags = 0;
+        for(int i = 0; i<len; i++)
+        {
+            rocks[i] = capacity[i] - rocks[i];
+        }
+        Arrays.sort(rocks);
+        
+        for(int i = 0; i<len; i++)
+        {
+            if(rocks[i] == 0)
+            {
+                maxBags++;
+            }
+            else if(additionalRocks >= rocks[i])
+            {
+                maxBags++;
+                additionalRocks -= rocks[i];
+            }
+            else
+                break;
+        }
+        return maxBags;
+    }
+}
