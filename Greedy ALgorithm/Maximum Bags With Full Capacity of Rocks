@@ -9,6 +9,7 @@ Example 1:
 Input: capacity = [2,3,4,5], rocks = [1,2,4,4], additionalRocks = 2
 Output: 3
 */
+//NOTES https://drive.google.com/file/d/1SV5BGV3GtSQX4rcri4l6dWaJ2NxNAVWd/view?usp=sharing
 
 //APPROACH 1 - Using extra space - TC O(N) and SC O(N) 
 
