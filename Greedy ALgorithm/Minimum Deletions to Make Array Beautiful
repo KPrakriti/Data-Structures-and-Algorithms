@@ -1,0 +1,16 @@
+class Solution {
+    public int minDeletion(int[] nums) {
+        
+        int countDeletions = 0;
+        
+        for(int i = 0; i<nums.length-1; i++)
+        {
+            if((i-countDeletions)%2 == 0 && (nums[i] == nums[i+1]))
+                countDeletions++;
+        }
+        if(((nums.length - countDeletions) % 2) !=0)
+            countDeletions++;
+        
+        return countDeletions;
+    }
+}
