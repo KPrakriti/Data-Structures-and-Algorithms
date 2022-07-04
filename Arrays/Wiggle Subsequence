@@ -1,0 +1,25 @@
+class Solution {
+    public int wiggleMaxLength(int[] nums) {
+        
+        if(nums.length < 2) return nums.length;
+        
+        int maxWiggleLength;
+        int prevDiff = nums[1] - nums[0];
+        maxWiggleLength = prevDiff != 0 ? 2 : 1;
+        int currDiff = 0;
+        int len = nums.length;
+        for(int i = 2; i<len; i++)
+        {
+            currDiff = nums[i] - nums[i-1];
+            if((currDiff > 0 && prevDiff <= 0) || (currDiff < 0 && prevDiff >= 0))
+            {
+                maxWiggleLength++;
+                prevDiff = currDiff;
+            }
+        }
+        return maxWiggleLength;
+    }
+}
+
+//TC O(N) 
+//SC O(1)
